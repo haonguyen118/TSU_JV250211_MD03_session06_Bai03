@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String[] plates = new String[10];
+        String[] plates = new String[1000];
         int currentIndex = 0;
         do {
             System.out.println("*******Quan ly bien so xe******");
@@ -27,30 +27,39 @@ public class Main {
                     //Kiem tra dinh dang cua bien so xe
                     String PlateRegex = "[0-9]{2}[A-Z]{1}\\-[0-9]{3}\\.[0-9]{2}";
                     for (int i = 0; i < countPlates; i++) {
-                        System.out.printf("Nhap vao bien so xe thu %d:", (i + 1));
-                        String plate = sc.nextLine();
-                        if (!plate.matches(PlateRegex)) {
-                            System.out.println("Bien so xe khong dung dinh dang.");
-                        } else {
-                            System.out.println("Bien so xe dung dinh dang");
-                            Boolean Existed = false;
-                            for (int j = 0; j < currentIndex; j++) {
-                                if (plates[j].equals(plate)) {
-                                    System.out.println("Bien so xe da ton tai");
-                                    Existed = true;
-                                } else {
 
-                                    Existed = false;
+
+
+                        do {
+                            String plateNumber;
+                            boolean valid = true;
+                            System.out.printf("Nhap vao bien so xe thu %d co dinh dang nhu sau (30F-123.45) :", (i + 1));
+                            plateNumber = sc.nextLine();
+                            if (!plateNumber.matches(PlateRegex)) {
+                                valid = false;
+                                System.out.println("Bien so xe khong dung dinh dang. Vui long nhap dung dinh dang.");
+
+                            } else {
+                                for (int j = 0; j < currentIndex; j++) {
+                                    if (plates[j].equals(plateNumber)) {
+                                        valid = false;
+                                        System.out.println("Bien so xe da ton tai. Vui long nhap lai:");
+                                        break;
+                                    }
+                                }
+                                if (valid) {
+                                    plates[currentIndex] = plateNumber;
+                                    System.out.println("Nhap bien so xe thanh cong");
+
+                                    currentIndex++;
+                                    break;
                                 }
                             }
-                            if (!Existed) {
-                                plates[currentIndex] = plate;
-                                currentIndex++;
-                                System.out.println("Nhap bien so xe thanh cong");
-                            }
+                        } while (true);
 
-                        }
                     }
+
+
                     break;
                 case 2:
                     System.out.println("Danh sach bien so xe:");
@@ -64,7 +73,7 @@ public class Main {
                     String plateSearch = sc.nextLine();
                     for (int i = 0; i < currentIndex; i++) {
                         if (plates[i].equals(plateSearch)) {
-                            System.out.printf("Bien so xe ban can tim co vi tri %d", i);
+                            System.out.printf("Da tim thay bien so xe %d trong danh sach", plateSearch);
                         } else {
                             System.out.println("Khong tim thay bien so xe ban vua nhap");
 
@@ -79,7 +88,7 @@ public class Main {
                     boolean Exists = false;
                     for (int i = 0; i < currentIndex; i++) {
                         if (plates[i].startsWith(Search)) {
-                            System.out.printf("Danh sach cac bien so xe co ma tinh, " + Search);
+                            System.out.printf("Danh sach cac bien so xe co ma tinh, " + Search+ "\t" );
                             System.out.println(plates[i]);
                             Exists = true;
 
